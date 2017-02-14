@@ -7,10 +7,10 @@ module.exports = {
     entry:"./src/js/index.js",
     output:{
         path:path.resolve(__dirname,'./src/output/'),
-        filename:'[name]-[hash].js'
+        filename:'wue-[hash].js'
     },
     module:{
-        loaders:[
+        rules:[
             {
                 test:/\.vue$/,
                 loader:'vue-loader'
@@ -20,7 +20,7 @@ module.exports = {
                 loader:'babel-loader',
                 exclude:'/node_modules/',
                 query:{
-                    presets:['es2015']
+                    presets:[['es2015',{"modules":false}]]
                 }
             },
             {
@@ -29,7 +29,14 @@ module.exports = {
             },
             {
                 test:/\.css$/,
-                loader:'style-loader!css-loader!postcss-loader'
+                loader:'style-loader!css-loader?modules-true!postcss-loader'
+            },{
+                test:/\.scss$/,
+                use:[
+                    {
+                        loader:'postcss-loader'
+                    },
+                ]
             }
         ]
     },
@@ -55,7 +62,6 @@ module.exports = {
         hot:true,
         historyApiFallback:true,
         inline:true,
-        process:true,
     }
     /*scripts:{
       "start":"webpack-dev-server --hot --inline"
